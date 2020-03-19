@@ -1,0 +1,205 @@
+# vi:ft=conf:fdl=0:fdm=indent:
+#
+#    ░░ ░░░░░░  ░░░░░░░ ░░░░░░░ ░░     ░░  ░░░░░░  ░░░░░░  ░░░    ░░ ░░░░░░░ ░░  ░░░░░░
+#    ▒▒ ▒▒   ▒▒ ▒▒      ▒▒      ▒▒    ▒▒  ▒▒      ▒▒    ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒
+#    ▓▓ ▓▓▓▓▓▓  ▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓ ▓▓   ▓▓   ▓▓      ▓▓    ▓▓ ▓▓ ▓▓  ▓▓ ▓▓▓▓▓   ▓▓ ▓▓   ▓▓▓
+#    ██ ██   ██      ██      ██ ██  ██    ██      ██    ██ ██  ██ ██ ██      ██ ██    ██
+# ██ ██ ██   ██ ███████ ███████ ██ ██      ██████  ██████  ██   ████ ██      ██  ██████
+#
+# @author: thiagoalessio <thiagoalessio@me.com>
+# @url: https://github.com/thiagoalessio/dotfiles
+
+utf8 = "on";
+
+servers = (
+	{
+		address = "irc.devel.redhat.com";
+		chatnet = "RedHat";
+		port = "6667";
+		use_tls = "no";
+		tls_verify = "no";
+		autoconnect = "yes";
+	},
+	{
+		address = "irc-2.devel.redhat.com";
+		chatnet = "RedHat";
+		port = "6667";
+		use_tls = "no";
+		tls_verify = "no";
+	},
+	{
+		address = "irc.bos.redhat.com";
+		chatnet = "RedHat";
+		port = "6667";
+		use_tls = "no";
+		tls_verify = "no";
+	},
+	{
+		address = "irc.bne.redhat.com";
+		chatnet = "RedHat";
+		port = "6667";
+		use_tls = "no";
+		tls_verify = "no";
+	},
+);
+chatnets = {
+	RedHat = {
+		type = "IRC";
+		nick = "thiagoalessio";
+	};
+};
+channels = (
+	{
+		name = "#aos-art-team";
+		chatnet = "RedHat";
+		autojoin = "Yes";
+	},
+	{
+		name = "#rel-eng";
+		chatnet = "RedHat";
+		autojoin = "Yes";
+	},
+	{
+		name = "#berlin";
+		chatnet = "RedHat";
+		autojoin = "Yes";
+	},
+);
+settings = {
+	core = {
+		real_name = "thiagoalessio";
+		user_name = "thiagoalessio";
+		nick = "thiagoalessio";
+	};
+	"fe-text" = {
+		actlist_sort = "refnum";
+	};
+	"fe-common/core" = {
+		theme = "soppa.theme";
+	};
+};
+logs = { };
+statusbar = {
+	items = {
+		barstart = "{sbstart}";
+		barend = "{sbend}";
+
+		topicbarstart = "{topicsbstart}";
+		topicbarend = "{topicsbend}";
+
+		time = "{sb $Z}";
+		user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+
+		window = "{sb $winref:$tag/$itemname{sbmode $M}}";
+		window_empty = "{sb $winref{sbservertag $tag}}";
+
+		prompt = "{prompt $[.15]itemname}";
+		prompt_empty = "{prompt $winname}";
+
+		topic = " $topic";
+		topic_empty = " Irssi v$J - http://www.irssi.org";
+
+		lag = "{sb Lag: $0-}";
+		act = "{sb Act: $0-}";
+		more = "-- more --";
+	};
+
+	default = {
+		window = {
+
+			disabled = "no";
+			type = "window";
+			placement = "bottom";
+			position = "1";
+			visible = "active";
+
+			items = {
+				barstart = {
+					priority = "100";
+				};
+				time = { };
+				user = { };
+				window = { };
+				window_empty = { };
+				lag = {
+					priority = "-1";
+				};
+				act = {
+					priority = "10";
+				};
+				more = {
+					priority = "-1";
+					alignment = "right";
+				};
+				barend = {
+					priority = "100";
+					alignment = "right";
+				};
+			};
+		};
+	};
+
+	window_inact = {
+
+		type = "window";
+		placement = "bottom";
+		position = "1";
+		visible = "inactive";
+
+		items = {
+			barstart = {
+				priority = "100";
+			};
+			window = { };
+			window_empty = { };
+			more = {
+				priority = "-1";
+				alignment = "right";
+			};
+			barend = {
+				priority = "100";
+				alignment = "right";
+			};
+		};
+	};
+
+	prompt = {
+
+		type = "root";
+		placement = "bottom";
+		position = "100";
+		visible = "always";
+
+		items = {
+			prompt = {
+				priority = "-1";
+			};
+			prompt_empty = {
+				priority = "-1";
+			};
+			input = {
+				priority = "10";
+			};
+		};
+	};
+
+
+	topic = {
+
+		type = "root";
+		placement = "top";
+		position = "1";
+		visible = "always";
+
+		items = {
+			topicbarstart = {
+				priority = "100";
+			};
+			topic = { };
+			topic_empty = { };
+			topicbarend = {
+				priority = "100"; alignment = "right";
+			};
+		};
+	};
+};

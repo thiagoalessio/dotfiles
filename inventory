@@ -1,0 +1,21 @@
+[fedora]
+fedora-vm ansible_host=192.168.???.???
+
+[rhel]
+thinkpad-rhel ansible_host=localhost ansible_connection=local
+rhel-vm ansible_host=192.168.???.???
+
+[centos]
+centos-vm ansible_host=192.168.???.???
+
+[fedora:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[rhel:vars]
+rhsm_username='myuser'
+rhsm_password='supersecret'
+
+[all:vars]
+ansible_ssh_pass='supersecret'
+ansible_become_pass='supersecret'
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

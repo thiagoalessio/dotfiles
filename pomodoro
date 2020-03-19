@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# vi:fdl=0:fdm=expr:fde=v\:lnum<12?0\:(getline(v\:lnum)=~'^\\s*$'&&getline(v\:lnum+1)=~'\\S'?'<1'\:1):
+#
+# ░░░░░░   ░░░░░░  ░░░    ░░░  ░░░░░░  ░░░░░░   ░░░░░░  ░░░░░░   ░░░░░░
+# ▒▒   ▒▒ ▒▒    ▒▒ ▒▒▒▒  ▒▒▒▒ ▒▒    ▒▒ ▒▒   ▒▒ ▒▒    ▒▒ ▒▒   ▒▒ ▒▒    ▒▒
+# ▓▓▓▓▓▓  ▓▓    ▓▓ ▓▓ ▓▓▓▓ ▓▓ ▓▓    ▓▓ ▓▓   ▓▓ ▓▓    ▓▓ ▓▓▓▓▓▓  ▓▓    ▓▓
+# ██      ██    ██ ██  ██  ██ ██    ██ ██   ██ ██    ██ ██   ██ ██    ██
+# ██       ██████  ██      ██  ██████  ██████   ██████  ██   ██  ██████
+#
+# @author: thiagoalessio <thiagoalessio@me.com>
+# @url: https://github.com/thiagoalessio/dotfiles
+
+# configuration
+minutes=25
+output_file="${HOME}/.pomodoro-timer"
+
+# style
+idle_format='#[fg=white] --:-- #[default]\n'
+countdown_format='#[fg=red] %02d:%02d #[default]\n'
+timesup_format="#[bg=red,fg=black%s] 00:00 #[default]\n"
+
+# trap
+pomodoro::reset_timer() { printf "${idle_format}" > "${output_file}"; }
+trap -- 'pomodoro::reset_timer ; exit' EXIT HUP INT QUIT TERM
+
+# initializing
+pomodoro::reset_timer
+touch "${output_file}"
+
+# countdown
+printf "${countdown_format}" ${minutes} 0 >> "${output_file}"
+for min in $(seq $((minutes-1)) -1 0); do
+	for sec in $(seq 59 -1 0); do
+		printf "${countdown_format}" ${min} ${sec} >> "${output_file}"
+		sleep 1
+	done
+done
+
+# time's up
+pomodoro::toggle() { [[ "$1" == "$2" ]] && echo "$3" || echo "$2"; }
+while true; do
+	reverse="$(pomodoro::toggle "${reverse}" ',reverse' '')"
+	printf "${timesup_format}" "${reverse}" >> "${output_file}"
+	sleep 1
+done

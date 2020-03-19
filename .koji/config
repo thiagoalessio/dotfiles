@@ -1,0 +1,17 @@
+# vi:ft=conf:
+#
+#    ░░   ░░  ░░░░░░       ░░ ░░     ░░  ░░░░░░  ░░░░░░  ░░░    ░░ ░░░░░░░ ░░  ░░░░░░
+#    ▒▒  ▒▒  ▒▒    ▒▒      ▒▒ ▒▒    ▒▒  ▒▒      ▒▒    ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒
+#    ▓▓▓▓▓   ▓▓    ▓▓      ▓▓ ▓▓   ▓▓   ▓▓      ▓▓    ▓▓ ▓▓ ▓▓  ▓▓ ▓▓▓▓▓   ▓▓ ▓▓   ▓▓▓
+#    ██  ██  ██    ██ ██   ██ ██  ██    ██      ██    ██ ██  ██ ██ ██      ██ ██    ██
+# ██ ██   ██  ██████   █████  ██ ██      ██████  ██████  ██   ████ ██      ██  ██████
+#
+# @author: thiagoalessio <thiagoalessio@me.com>
+# @url: https://github.com/thiagoalessio/dotfiles
+
+[koji]
+server = http://brewhub.devel.redhat.com/brewhub
+authtype = kerberos
+topdir = /mnt/redhat/brewroot
+weburl = http://brewweb.devel.redhat.com/brew
+topurl = http://download.devel.redhat.com/brewroot

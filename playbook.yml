@@ -1,0 +1,495 @@
+# vi:ft=yaml.ansible:fdl=0:fdm=marker:fmr={{{,}}}
+#
+# ░░░░░░  ░░       ░░░░░  ░░    ░░ ░░░░░░   ░░░░░░   ░░░░░░  ░░   ░░ ░░    ░░ ░░░    ░░░ ░░
+# ▒▒   ▒▒ ▒▒      ▒▒   ▒▒  ▒▒  ▒▒  ▒▒   ▒▒ ▒▒    ▒▒ ▒▒    ▒▒ ▒▒  ▒▒   ▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒ ▒▒
+# ▒▒▒▒▒▒  ▒▒      ▒▒▒▒▒▒▒   ▒▒▒▒   ▒▒▒▒▒▒  ▒▒    ▒▒ ▒▒    ▒▒ ▒▒▒▒▒     ▒▒▒▒   ▒▒ ▒▒▒▒ ▒▒ ▒▒
+# ██      ██      ██   ██    ██    ██   ██ ██    ██ ██    ██ ██  ██     ██    ██  ██  ██ ██
+# ██      ███████ ██   ██    ██    ██████   ██████   ██████  ██   ██ ██ ██    ██      ██ ███████
+#
+# @author: thiagoalessio <thiagoalessio@me.com>
+# @url: https://github.com/thiagoalessio/dotfiles
+
+- hosts: all
+  vars:
+    packages_to_be_installed:
+    # work tools {{{
+      - '@Development Tools'
+      - bash
+      - buildah
+      - ctags
+      - curl
+      - firefox
+      - git
+      - htop
+      - irssi
+      - jq
+      - krb5-devel
+      - krb5-workstation
+      - libcurl-devel
+      - libgit2
+      - mutt
+      - NetworkManager-openvpn-gnome
+      - openssl-devel
+      - podman
+      - rpm-devel
+      - skopeo
+      - tmux
+      - tree
+      - vim
+      - 'https://github.com/cli/cli/releases/download/v0.6.2/gh_0.6.2_linux_amd64.rpm'
+    # }}}
+    # asdf-vm plugin dependencies {{{
+      - autoconf
+      - automake
+      - libffi-devel
+      - libtool
+      - libxslt-devel
+      - ncurses-devel
+      - readline-devel
+      - unixODBC-devel
+      - unzip
+    # }}}
+    # alacritty build dependencies {{{
+      - cmake
+      - fontconfig-devel
+      - freetype-devel
+      - libxcb-devel
+    # }}}
+    # xclip build dependencies {{{
+      - libX11-devel
+      - libXmu-devel
+    # }}}
+    # additional modules required by ansible {{{
+      - python3-libselinux
+      - python3-psutil
+    # }}}
+
+    packages_to_be_removed:
+      - cheese
+      - evolution
+    # brasero {{{
+      - brasero
+      - brasero-libs
+      - brasero-nautilus
+    # }}}
+    # gnome apps {{{
+      - gnome-calendar
+      - gnome-clocks
+      - gnome-contacts
+      - gnome-maps
+      - gnome-photos
+      - gnome-weather
+    # }}}
+      - hexchat
+    # libreoffice {{{
+      - libreoffice-calc
+      - libreoffice-core
+      - libreoffice-data
+      - libreoffice-draw
+      - libreoffice-graphicfilter
+      - libreoffice-gtk3
+      - libreoffice-help-en
+      - libreoffice-langpack-en
+      - libreoffice-opensymbol-fonts
+      - libreoffice-pyuno
+      - libreoffice-ure
+      - libreoffice-ure-common
+      - libreoffice-writer
+      - libreoffice-x11
+      - libreoffice-xsltfilter
+    # }}}
+      - pidgin
+      - rhythmbox
+
+    flatpaks:
+      - com.obsproject.Studio
+      - org.audacityteam.Audacity
+      - org.blender.Blender
+      - org.gabmus.hydrapaper
+      - org.gimp.GIMP
+      - org.inkscape.Inkscape
+      - org.videolan.VLC
+
+    dconf_settings:
+      - key: /org/gnome/desktop/input-sources/sources
+        value: "[('xkb', 'us+dvorak')]"
+
+      - key: /org/gnome/desktop/input-sources/xkb-options
+        value: "['compose:ralt', 'caps:ctrl_modifier']"
+
+      - key: /org/gnome/desktop/interface/gtk-theme
+        value: "'Adwaita-dark'"
+
+      - key: /org/gnome/shell/favorite-apps
+        value: >-
+          ['Alacritty.desktop',
+          'firefox.desktop',
+          'org.gnome.Nautilus.desktop',
+          'org.gnome.Software.desktop',
+          'gnome-control-center.desktop']
+
+    asdf_plugins:
+      golang:     1.14
+      groovy:     apache-groovy-binary-3.0.2
+      hadolint:   v1.17.5
+      java:       adopt-openjdk-13.0.2+8_openj9-0.18.0
+      python:     3.8.2
+      ruby:       2.7.0
+      rust:       stable
+      shellcheck: 0.7.0
+      terraform:  0.12.23
+
+    pip_modules:
+      - ansible
+      - ansible-lint
+      - koji
+      - rh-ocp-build-data-validator
+
+    vim_plugins:
+      - chriskempson/base16-vim
+      - junegunn/vader.vim
+      - majutsushi/tagbar
+      - sheerun/vim-polyglot
+      - thiagoalessio/rainbow_levels.vim
+
+  tasks:
+    - name: Pre-flight check
+      assert:
+        that:
+          - ansible_facts['os_family'] == 'RedHat'
+        fail_msg: 'Unsupported OS'
+      tags: ['always']
+
+  # RHSM {{{
+    - block:
+      - name: RHSM | Register system
+        redhat_subscription:
+          state: present
+          username: "{{ rhsm_username }}"
+          password: "{{ rhsm_password }}"
+          auto_attach: yes
+          syspurpose:
+            service_level_agreement: Self-Support
+            sync: yes
+
+      - name: RHSM | Set release version
+        rhsm_release:
+          release: '8.1'
+      become: yes
+      when: ansible_facts['distribution'] == 'RedHat'
+      tags: ['rhsm']
+
+  # }}}
+  # DNF {{{
+    - block:
+      - name: DNF | Install EPEL and RPM Fusion repositories
+        dnf:
+          name:
+            - 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+            - 'https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm'
+          state: present
+        when: ansible_facts['distribution'] == 'RedHat' or ansible_facts['distribution'] == 'CentOS'
+
+      - name: DNF | Install packages
+        dnf: "name={{ packages_to_be_installed }} state=present"
+
+      - name: DNF | Remove packages
+        dnf: "name={{ packages_to_be_removed }} state=absent"
+      become: yes
+      tags: ['dnf']
+  # }}}
+  # Flatpak {{{
+    - block:
+      - name: Flatpak | Add flathub repository
+        flatpak_remote:
+          flatpakrepo_url: 'https://flathub.org/repo/flathub.flatpakrepo'
+          name: flathub
+          method: user
+          state: present
+
+      - name: Flatpak | Install flatpaks
+        flatpak: "name='{{ item }}' state=present method=user remote=flathub"
+        with_items: "{{ flatpaks }}"
+      tags: ['flatpak']
+  # }}}
+  # AccountService {{{
+    - block:
+      - name: AccountService | Download user profile picture
+        get_url:
+          url: 'https://avatars0.githubusercontent.com/u/190616'
+          dest: /var/lib/AccountsService/icons/thiagoalessio
+
+      - name: AccountService | Define user profile picture
+        lineinfile:
+          path: /var/lib/AccountsService/users/thiagoalessio
+          regexp: '^Icon='
+          line: 'Icon=/var/lib/AccountsService/icons/thiagoalessio'
+      become: yes
+      tags: ['account-service']
+  # }}}
+
+    - name: Apply desired dconf settings
+      dconf: "key={{ item.key }} value={{ item.value | string }} state=present"
+      with_items: "{{ dconf_settings }}"
+      tags: ['dconf']
+
+
+    - name: Create required directories in user's $HOME
+      file: "path={{ ansible_env.HOME }}/{{ item }} state=directory recurse=yes"
+      with_items:
+        - .config
+        - .icons
+        - .irssi
+        - .koji
+        - .local/bin
+        - .local/share/applications
+        - .local/src
+        - .mutt
+        - .vim/pack/plugins/start
+        - .vim/undo
+      tags: ['dotfiles']
+
+  # asdf-vm {{{
+    - block:
+      - name: asdf-vm | Set Facts
+        set_fact:
+          asdf_bin: "{{ ansible_env.HOME }}/.asdf/bin/asdf"
+
+      - name: asdf-vm | Clone v0.7.6
+        git:
+          repo: 'https://github.com/asdf-vm/asdf.git'
+          dest: "{{ ansible_env.HOME }}/.asdf"
+          version: v0.7.6
+
+      - name: asdf-vm | Collect currently added plugins
+        command: "{{ asdf_bin }} plugin-list"
+        register: asdf_present_plugins
+        changed_when: false
+        failed_when: false
+
+      - name: asdf-vm | Add missing plugins
+        command: "{{ asdf_bin }} plugin-add {{ item }}"
+        when: item not in asdf_present_plugins.stdout
+        with_items: "{{ asdf_plugins.keys() | list }}"
+
+      - name: asdf-vm | Install versions
+        command: "{{ asdf_bin }} install {{ item.key }} {{ item.value }}"
+        args:
+          creates: "{{ ansible_env.HOME }}/.asdf/installs/{{ item.key }}/{{ item.value }}"
+        environment:
+          PATH: "{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.PATH }}"
+        with_dict: "{{ asdf_plugins }}"
+
+      - name: asdf-vm | Define global versions
+        lineinfile:
+          path: "{{ ansible_env.HOME }}/.tool-versions"
+          line: "{{ item.key }} {{ item.value }}"
+          state: present
+          create: yes
+        with_dict: "{{ asdf_plugins }}"
+
+      - name: asdf-vm | Reshim
+        command: "{{ asdf_bin }} reshim"
+        changed_when: false
+      tags: ['asdf-vm']
+  # }}}
+  # Alacritty {{{
+    - block:
+      - name: Alacritty | Clone source
+        git:
+          repo: 'https://github.com/alacritty/alacritty.git'
+          dest: "{{ ansible_env.HOME }}/.local/src/alacritty"
+          version: master
+
+      - name: Alacritty | Build
+        command: "{{ ansible_env.HOME }}/.asdf/shims/cargo build --release"
+        args:
+          chdir: "{{ ansible_env.HOME }}/.local/src/alacritty"
+          creates: "{{ ansible_env.HOME }}/.local/src/alacritty/target/release/alacritty"
+
+      - name: Alacritty | Install
+        copy:
+          src: "{{ ansible_env.HOME }}/.local/src/alacritty/target/release/alacritty"
+          dest: "{{ ansible_env.HOME }}/.local/bin/alacritty"
+          mode: 0755
+          remote_src: yes
+
+      - name: Alacritty | Install icon
+        copy:
+          src: "{{ ansible_env.HOME }}/.local/src/alacritty/extra/logo/alacritty-term.svg"
+          dest: "{{ ansible_env.HOME }}/.icons/Alacritty.svg"
+          remote_src: yes
+
+      - name: Alacritty | Install desktop entry
+        copy:
+          src: "{{ ansible_env.HOME }}/.local/src/alacritty/extra/linux/Alacritty.desktop"
+          dest: "{{ ansible_env.HOME }}/.local/share/applications/Alacritty.desktop"
+          remote_src: yes
+        register: installed_alacritty_desktop_entry
+
+      - name: Alacritty | Update desktop database
+        command: "update-desktop-database {{ ansible_env.HOME }}/.local/share/applications"
+        when: installed_alacritty_desktop_entry.changed
+      tags: ['alacritty']
+  # }}}
+  # Terminus {{{
+    - block:
+      - name: Terminus | Copy source
+        unarchive:
+          src: terminus-font-4.48.tar.gz
+          dest: "{{ ansible_env.HOME }}/.local/src"
+
+      - name: Terminus | Check if font is already installed
+        stat: "path={{ ansible_env.HOME }}/.local/share/fonts/terminus"
+        register: terminus_fonts
+
+      - name: Terminus | Configure build
+        lineinfile:
+          path: "{{ ansible_env.HOME }}/.local/src/terminus-font-4.48/Makefile"
+          regexp: '^prefix\t='
+          line: "prefix = {{ ansible_env.HOME }}/.local"
+        when: not terminus_fonts.stat.exists
+
+      - name: Terminus | Build
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/terminus-font-4.48"
+          target: -j8
+        when: not terminus_fonts.stat.exists
+
+      - name: Terminus | Install
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/terminus-font-4.48"
+          target: install
+        register: terminus_font_install
+        when: not terminus_fonts.stat.exists
+
+      - name: Terminus | Configure fontdir
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/terminus-font-4.48"
+          target: fontdir
+        when: terminus_font_install.changed
+      tags: ['terminus']
+  # }}}
+  # password-store {{{
+    - block:
+      - name: password-store | Clone source
+        git:
+          repo: 'https://git.zx2c4.com/password-store'
+          dest: "{{ ansible_env.HOME }}/.local/src/password-store"
+          version: master
+
+      - name: password-store | Check if already installed
+        stat: "path={{ ansible_env.HOME }}/.local/bin/pass"
+        register: pass_binary
+
+      - name: password-store | Install
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/password-store"
+          target: install
+        environment:
+          PREFIX: "{{ ansible_env.HOME }}/.local"
+        when: not pass_binary.stat.exists
+      tags: ['pass']
+  # }}}
+  # xclip {{{
+    - block:
+      - name: xclip | Clone source
+        git:
+          repo: 'https://github.com/astrand/xclip.git'
+          dest: "{{ ansible_env.HOME }}/.local/src/xclip"
+          version: master
+
+      - name: xclip | Check if already installed
+        stat: "path={{ ansible_env.HOME }}/.local/bin/xclip"
+        register: xclip_binary
+
+      - name: xclip | Generate configuration files
+        command: autoreconf
+        args:
+          chdir: "{{ ansible_env.HOME }}/.local/src/xclip"
+          creates: "{{ ansible_env.HOME }}/.local/src/xclip/configure"
+        when: not xclip_binary.stat.exists
+
+      - name: xclip | Generate Makefile
+        command: "./configure --prefix={{ ansible_env.HOME }}/.local"
+        args:
+          chdir: "{{ ansible_env.HOME }}/.local/src/xclip"
+          creates: "{{ ansible_env.HOME }}/.local/src/xclip/Makefile"
+        when: not xclip_binary.stat.exists
+
+      - name: xclip | Build
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/xclip"
+        when: not xclip_binary.stat.exists
+
+      - name: xclip | Install
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/xclip"
+          target: install
+        when: not xclip_binary.stat.exists
+
+      - name: xclip | Check man stat
+        stat: "path={{ ansible_env.HOME }}/.local/share/man/man1/pass.1"
+        register: xclip_man
+
+      - name: xclip | Install man pages
+        make:
+          chdir: "{{ ansible_env.HOME }}/.local/src/xclip"
+          target: install.man
+        when: not xclip_man.stat.exists
+      tags: ['xclip']
+  # }}}
+
+    - name: Install Python PIP modules
+      pip: "name={{ pip_modules }} executable={{ ansible_env.HOME }}/.asdf/shims/pip"
+      tags: ['pip']
+
+    - name: Install screenfetch
+      get_url:
+        url: "https://git.io/vaHfR"
+        dest: "{{ ansible_env.HOME }}/.local/bin/screenfetch"
+        mode: 0755
+      tags: ['screenfetch']
+
+    - name: Install pomodoro
+      copy:
+        src: pomodoro
+        dest: "{{ ansible_env.HOME }}/.local/bin/pomodoro"
+        mode: 0755
+      tags: ['pomodoro']
+
+    - name: Install base16-shell
+      git:
+        repo: "https://github.com/chriskempson/base16-shell.git"
+        dest: "{{ ansible_env.HOME }}/.config/base16-shell"
+        version: master
+      tags: ['base16-shell']
+
+    - name: Install vim plugins
+      git:
+        repo: "https://github.com/{{ item }}.git"
+        dest: "{{ ansible_env.HOME }}/.vim/pack/plugins/start/{{ item.split('/') | last }}"
+        version: master
+      with_items: "{{ vim_plugins }}"
+      tags: ['vim-plugins']
+
+    - name: Copy dotfiles
+      copy: "src={{ item }} dest={{ ansible_env.HOME }}/{{ item }}"
+      with_items:
+        - .alacritty.yml
+        - .bashrc
+        - .gitconfig
+        - .irssi/config
+        - .irssi/soppa.theme
+        - .koji/config
+        - .tmux.conf
+        - .todo.example
+        - .vimrc
+      tags: ['dotfiles']
+
+    - name: Add buildvm entry to /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: '127.0.0.1 saml.buildvm.openshift.eng.bos.redhat.com'
+        state: present
+      become: yes

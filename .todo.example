@@ -1,0 +1,23 @@
+ vim:ft=help:fdm=marker:fdl=0:
+
+░░░░░░░░  ░░░░░░  ░░░░░░   ░░░░░░ ~
+   ▒▒    ▒▒    ▒▒ ▒▒   ▒▒ ▒▒    ▒▒~
+   ▓▓    ▓▓    ▓▓ ▓▓   ▓▓ ▓▓    ▓▓~
+   ██    ██    ██ ██   ██ ██    ██~
+   ██     ██████  ██████   ██████~
+
+|CW#02| {{{
+*Mon.05.Jan.1970*
+--- PTO ---
+
+}}}
+|CW#01| {{{
+*Fri.02.Jan.1970*
+{-} |ABC-002| Continue In progress task
+{ } |ABC-003| To-do task
+
+*Thu.01.Jan.1970*
+{x} |ABC-001| Finished task
+{-} |ABC-002| In progress task
+
+}}}

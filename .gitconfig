@@ -1,0 +1,53 @@
+# vi:ft=gitconfig:fdl=0:fdm=expr:fde=v\:lnum<11?0\:(getline(v\:lnum)=~'^\\s*$'&&getline(v\:lnum+1)=~'\\S'?'<1'\:1):
+#
+#     ░░░░░░  ░░ ░░░░░░░░  ░░░░░░  ░░░░░░  ░░░    ░░ ░░░░░░░ ░░  ░░░░░░
+#    ▒▒       ▒▒    ▒▒    ▒▒      ▒▒    ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒
+#    ▓▓   ▓▓▓ ▓▓    ▓▓    ▓▓      ▓▓    ▓▓ ▓▓ ▓▓  ▓▓ ▓▓▓▓▓   ▓▓ ▓▓   ▓▓▓
+#    ██    ██ ██    ██    ██      ██    ██ ██  ██ ██ ██      ██ ██    ██
+# ██  ██████  ██    ██     ██████  ██████  ██   ████ ██      ██  ██████
+#
+# @author: thiagoalessio <thiagoalessio@me.com>
+# @url: https://github.com/thiagoalessio/dotfiles
+
+[user] # work
+name = thiagoalessio
+email = talessio@redhat.com
+signingkey = 0F710EE2B4736DD99481E32E9C0FFE2284877CF3
+
+# [user] # personal
+# name = thiagoalessio
+# email = thiagoalessio@me.com
+# signingkey = 7FD61CA474C561283D4969C24FA963BAEA16AFD0
+
+[commit]
+gpgsign = true
+
+[core]
+editor = vim
+autocrlf = input
+
+[pull]
+rebase = true
+
+[push]
+default = simple
+
+[diff]
+tool = vimdiff
+
+[difftool]
+prompt = false
+
+[merge]
+ff = false
+tool = vimdiff
+
+[mergetool]
+prompt = false
+
+[color]
+ui = true
+
+[alias]
+lg = log --graph --pretty=format:\
+'%Cred%h%C(yellow)%d %C(blue)%an %C(magenta)[%GK]%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --
