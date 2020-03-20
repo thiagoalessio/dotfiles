@@ -75,7 +75,9 @@
     # gnome apps {{{
       - gnome-calendar
       - gnome-clocks
+      - gnome-color-manager
       - gnome-contacts
+      - gnome-logs
       - gnome-maps
       - gnome-photos
       - gnome-weather
@@ -100,6 +102,15 @@
     # }}}
       - pidgin
       - rhythmbox
+    # SELinux Troubleshooter {{{
+      - setroubleshoot
+      - setroubleshoot-plugins
+      - setroubleshoot-server
+    # }}}
+    # totem {{{
+      - totem
+      - totem-nautilus
+    # }}}
 
     flatpaks:
       - com.obsproject.Studio
