@@ -244,6 +244,9 @@
       with_items: "{{ dconf_settings }}"
       tags: ['dconf']
 
+    - name: Remove Htop desktop entry
+      file: 'path=/usr/share/applications/htop.desktop state=absent'
+      become: yes
 
     - name: Create required directories in user's $HOME
       file: "path={{ ansible_env.HOME }}/{{ item }} state=directory recurse=yes"
