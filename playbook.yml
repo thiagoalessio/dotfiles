@@ -468,7 +468,7 @@
     - name: Install vim plugins
       git:
         repo: "https://github.com/{{ item }}.git"
-        dest: "{{ ansible_env.HOME }}/.vim/pack/plugins/start/{{ item.split('/') | last }}"
+        dest: "{{ ansible_env.HOME }}/.vim/pack/plugins/start/{{ item | basename }}"
         version: master
       with_items: "{{ vim_plugins }}"
       tags: ['vim-plugins']
