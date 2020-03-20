@@ -51,6 +51,7 @@ set wildmenu
 set nowrap
 set noerrorbells novisualbell t_vb=
 set cursorline cursorcolumn colorcolumn=78
+set virtualedit=onemore
 
 " colors
 let base16colorspace=256
