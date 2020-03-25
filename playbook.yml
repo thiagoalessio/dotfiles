@@ -140,6 +140,8 @@
           'gnome-control-center.desktop']
 
     asdf_plugins:
+      elixir:     1.10.2-otp-22
+      erlang:     22.2.7
       golang:     1.14
       groovy:     apache-groovy-binary-3.0.2
       hadolint:   v1.17.5
