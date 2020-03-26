@@ -44,7 +44,8 @@ export PS1
 # aliases
 alias brew='koji'
 alias docker='podman'
-alias kinit='kinit talessio@IPA.REDHAT.COM'
+alias kinit_redhat='kinit talessio@IPA.REDHAT.COM'
+alias kinit_fedora='kinit thiagoalessio@FEDORAPROJECT.ORG'
 alias ls='ls -a --color'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
