@@ -504,6 +504,15 @@
         version: master
       tags: ['bash-completion']
 
+    - name: Install dasm assembler
+      unarchive:
+        src: 'https://github.com/dasm-assembler/dasm/releases/download/2.20.13/dasm-2.20.13-linux-x64.tar.gz'
+        dest: "{{ ansible_env.HOME }}/.local/bin"
+        remote_src: yes
+        exclude:
+          - machines
+      tags: ['dasm']
+
     - name: Copy dotfiles
       copy: "src={{ item }} dest={{ ansible_env.HOME }}/{{ item }}"
       with_items:
