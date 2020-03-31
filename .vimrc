@@ -15,6 +15,7 @@ set noswapfile
 set undofile undodir=~/.vim/undo
 set backspace=indent,eol,start
 set modeline modelines=2
+set path+=**
 set lazyredraw
 filetype plugin indent on
 syntax enable
