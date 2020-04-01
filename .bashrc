@@ -42,6 +42,7 @@ PS1="${PS1}\w \$ "
 export PS1
 
 # aliases
+alias brew='koji -p brew'
 alias docker='podman'
 alias kinit_redhat='kinit talessio@IPA.REDHAT.COM'
 alias kinit_fedora='kinit thiagoalessio@FEDORAPROJECT.ORG'
