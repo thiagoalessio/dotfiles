@@ -18,6 +18,7 @@
       - buildah
       - ctags
       - curl
+      - dash
       - firefox
       - git
       - htop
@@ -504,6 +505,14 @@
         exclude:
           - machines
       tags: ['dasm']
+
+    - name: Use a POSIX-compliant shell (dash) as /bin/sh
+      file:
+        src: /usr/bin/dash
+        dest: /bin/sh
+        state: link
+      become: yes
+      tags: ['dash']
 
     - name: Copy dotfiles
       copy: "src={{ item }} dest={{ ansible_env.HOME }}/{{ item }}"
