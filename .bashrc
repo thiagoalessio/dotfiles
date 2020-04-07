@@ -42,6 +42,7 @@ PS1="${PS1}\w \$ "
 export PS1
 
 # aliases
+alias ssh='mosh'
 alias brew='koji -p brew'
 alias docker='podman'
 alias kinit_redhat='kinit talessio@IPA.REDHAT.COM'

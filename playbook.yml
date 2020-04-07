@@ -28,6 +28,7 @@
       - krb5-workstation
       - libcurl-devel
       - libgit2
+      - mosh
       - mutt
       - NetworkManager-openvpn-gnome
       - openssl-devel
