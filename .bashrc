@@ -42,15 +42,15 @@ PS1="${PS1}\w \$ "
 export PS1
 
 # aliases
-alias ip='ip -c'
-alias ssh='mosh'
 alias brew='koji -p brew'
 alias docker='podman'
-alias kinit_redhat='kinit talessio@IPA.REDHAT.COM'
+alias ip='ip -c'
 alias kinit_fedora='kinit thiagoalessio@FEDORAPROJECT.ORG'
+alias kinit_redhat='kinit talessio@IPA.REDHAT.COM'
 alias ls='ls -a --color'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias ssh='mosh'
 alias tmux='tmux -2u'
 alias tree='tree -a'
 alias vi='vim'
