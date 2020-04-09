@@ -203,7 +203,7 @@
             - 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
             - 'https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm'
           state: present
-        when: ansible_facts['distribution'] == 'RedHat' or ansible_facts['distribution'] == 'CentOS'
+        when: ansible_facts['distribution'] in ['RedHat', 'CentOS']
 
       - name: DNF | Install packages
         dnf: "name={{ packages_to_be_installed }} state=present"
