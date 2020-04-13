@@ -13,6 +13,7 @@
 # custom functions
 load() { test -f "${1}" && . "${1}"; }
 buildvm() { ssh -K -L 8888:localhost:8443 buildvm.openshift.eng.bos.redhat.com; }
+add_to_path() { echo "${PATH}" | grep -q "${1}" || export PATH="${1}:${PATH}"; }
 
 # source global definitions
 load /etc/bashrc
@@ -20,7 +21,7 @@ load /etc/bashrc
 # environment
 load "${HOME}/.asdf/asdf.sh"
 load "${HOME}/.asdf/plugins/java/set-java-home.sh"
-export PATH="${HOME}/.local/bin:${HOME}/bin:${PATH}"
+add_to_path "${HOME}/.local/bin"
 export EDITOR=vim
 export PAGER=less
 export REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
