@@ -44,6 +44,7 @@ export PS1
 
 # aliases
 alias brew='koji -p brew'
+alias diff='diff --color=always'
 alias docker='podman'
 alias ip='ip -c'
 alias kinit_fedora='kinit thiagoalessio@FEDORAPROJECT.ORG'
