@@ -16,7 +16,6 @@ set undofile undodir=~/.vim/undo
 set backspace=indent,eol,start
 set modeline modelines=2
 set path+=**
-set lazyredraw
 filetype plugin indent on
 syntax enable
 
@@ -44,6 +43,7 @@ au FileType cucumber,gitcommit,mail,markdown,text setlocal spell
 set foldenable foldcolumn=0
 
 " interface
+set lazyredraw
 set splitright splitbelow
 set number relativenumber
 set list listchars=eol:$,tab:>-,trail:%
