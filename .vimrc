@@ -42,6 +42,11 @@ au FileType cucumber,gitcommit,mail,markdown,text setlocal spell
 " folding
 set foldenable foldcolumn=0
 
+" completion
+set omnifunc=syntaxcomplete#Complete
+set dictionary+=/usr/share/dict/words
+set complete+=k
+
 " interface
 set lazyredraw
 set splitright splitbelow
