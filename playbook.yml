@@ -189,7 +189,7 @@
 
       - name: RHSM | Set release version
         rhsm_release:
-          release: '8.1'
+          release: '8.2'
       become: yes
       when: ansible_facts['distribution'] == 'RedHat'
       tags: ['rhsm']
