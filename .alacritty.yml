@@ -48,6 +48,7 @@ shell:
 draw_bold_text_with_bright_colors: true
 
 key_bindings:
+  - { key: N,        mods: Control|Shift, action: SpawnNewInstance }
   - { key: C,        mods: Control|Shift, action: Copy             }
   - { key: V,        mods: Control|Shift, action: Paste            }
   - { key: Insert,   mods: Shift,         action: PasteSelection   }
@@ -56,4 +57,3 @@ key_bindings:
   - { key: Add,      mods: Control,       action: IncreaseFontSize }
   - { key: Subtract, mods: Control,       action: DecreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
-
